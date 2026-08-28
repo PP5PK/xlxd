@@ -1,4 +1,4 @@
-﻿###
+﻿# XLX Multiprotocol Gateway Reflector
 The XLX Multiprotocol Gateway Reflector Server is part of the software system for the D-Star Network.
 The sources are published under GPL Licenses.
 
