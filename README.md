@@ -1,9 +1,5 @@
-﻿# Copyright
-
-© 2016 Jean-Luc Deltombe LX3JL and Luc Engelmann LX1IQ
-
-The XLX Multiprotocol Gateway Reflector Server is part of the software system
-for the D-Star Network.
+﻿###
+The XLX Multiprotocol Gateway Reflector Server is part of the software system for the D-Star Network.
 The sources are published under GPL Licenses.
 
 # Supported Protocols since XLX v2.5.x
@@ -15,107 +11,84 @@ The sources are published under GPL Licenses.
 
 # Usage
 
-The packages which are described in this document are designed to install server
-software which is used for the D-Star network infrastructure.
-It requires a 24/7 internet connection which can support 20 voice streams or more
-to connect repeaters and hotspot dongles!!
+The packages which are described in this document are designed to install server software which is used for the D-Star network infrastructure.
+It requires a 24/7 internet connection which can support 20 voice streams or more to connect repeaters and hotspot dongles!!
 
 - The server requires a fix IP-address !
-- The public IP address should have a DNS record which must be published in the
-common host files.
+- The public IP address should have a DNS record which must be published in the common host files.
 
-If you want to run this software please make sure that you can provide this
-service free of charge, like the developer team provides the software and the
-network infrastructure free of charge!
+If you want to run this software please make sure that you can provide this service free of charge, like the developer team provides the software and the network infrastructure free of charge!
 
 # Requirements
 
 The software packages for Linux are tested on Debian7 (Wheezy) 32 and 64bit or newer.
-Raspbian will work but is not recommended.
+RaspiOS will work but is not recommended.
 Please use the stable version listed above, we cannot support others.
 
 # Installation
 
-## Debian 7 (Wheezy) 32 and 64bit
+## Debian 7+
 
 ###### After a clean installation of debian make sure to run update and upgrade
 ```
-# apt-get update
-# apt-get upgrade
-```
-###### Install Git
-```
-# apt-get install git git-core
-```
-###### Install webserver with PHP5 support
-```
-# apt-get install apache2 php5
+# sudo apt update
+# sudo apt upgrade
 ```
 
-###### Install g++ compiler
+###### Install Requirements
 ```
- # apt-get install build-essential
- # apt-get install g++-4.7 (skip this step on Debian 8.x) 
+# sudo apt install git git-core apache php build-essential g++
 ```
+
 ###### After downloading and before compiling, please have a look at the main.h file
 ```
- # nano /xlxd/src/main.h
+ # sudo nano /xlxd/src/main.h
 
  For YSF you need to define a default HotSpot frequency !!!
-
 ```
+
 ###### Download and compile the XLX sources
 ```
-# git clone https://github.com/LX3JL/xlxd.git
-# cd xlxd/src/
-# make clean
-# make
-# make install
+# sudo git clone https://github.com/PP5PK/xlxd.git /usr/src/XLX
+# cd usr/src/XLX/
+# sudo make clean
+# sudo make
+# sudo make install
 ```
 
-###### Copy startup script "xlxd" to /etc/init.d
+###### Copy and adapt systemd service
 ```
-# cp ~/xlxd/scripts/xlxd /etc/init.d/xlxd
+sudo cp /usr/src/XLX/templates/xlxd.service /etc/systemd/system/
+sudo nano etc/systemd/system/xlxd.service
+
+Change parameter to your public IP address
 ```
 
-###### Adapt the default startup parameters to your needs
-```
-# pico /etc/init.d/xlxd
-```
 ###### Download the dmrid.dat from the XLXAPI server to your xlxd folder
 ```
-# wget -O /xlxd/dmrid.dat http://xlxapi.rlx.lu/api/exportdmr.php
+# sudo wget -O /xlxd/dmrid.dat http://xlxapi.rlx.lu/api/exportdmr.php
 ```
 
 ###### Check your FTDI driver and install the AMBE service according to the readme in AMBEd
-```
- 
-```
 
 ###### Last step is to declare the service for automatic startup and shutdown
 ```
-# update-rc.d xlxd defaults
-```
-
-###### Start or stop the service with
-```
-# service xlxd start
-# service xlxd stop
+# sudo systemctl enable --now xlxd.service
 ```
 
 ###### Copy dashboard to /var/www
 ```
-# cp -r ~/xlxd/dashboard /var/www/db
+# sudo cp -r ~/xlxd/dashboard /var/www/html/xlxd/
 ```
 
 ###### Give the dashboard read access to the server log file 
 ```
-# chmod +r /var/log/messages 
+# sudo chmod +r /var/log/messages 
 ```
 
 ###### Reboot server to see if the auto-start is working
 ```
-# reboot
+# sudo reboot
 ```
 
 # Firewall settings #
