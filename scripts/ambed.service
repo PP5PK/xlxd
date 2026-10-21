@@ -1,6 +1,7 @@
 [Unit]
 Description=AMBE Software Transcoder Daemon
-After=network.target xlxd.service
+After=network-online.target
+Wants=network-online.target
 Before=xlxd.service
 
 [Service]
