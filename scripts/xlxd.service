@@ -1,7 +1,7 @@
 [Unit]
 Description=XLXD DStar Reflector Service
 After=network-online.target
-Wants=ambed.service xlx_log.service xlxecho.service monitor_XLX.service
+Wants=network-online.target ambed.service xlx_log.service xlxecho.service monitor_XLX.service
 Requires=network-online.target
 
 [Service]
