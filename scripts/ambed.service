@@ -1,0 +1,19 @@
+[Unit]
+Description=AMBE Software Transcoder Daemon
+After=network.target xlxd.service
+Before=xlxd.service
+
+[Service]
+Type=simple
+User=root
+Group=root
+# Audio settings (gain, EQ, noise gate...) are in /ambed/ambed.conf
+EnvironmentFile=/ambed/ambed.conf
+ExecStart=/ambed/ambed 127.0.0.1
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target xlxd.service
